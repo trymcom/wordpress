@@ -1,0 +1,93 @@
+@charset "UTF-8";
+
+$sansSerif: 'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
+$serif: 'ヒラギノ明朝 Pro W6', 'Hiragino Mincho Pro', 'HGS明朝E', 'ＭＳ Ｐ明朝', serif;
+$fontColor: #4c4c4c;
+$linkColor: #4c4c4c;
+$siteWidth: 960px;
+$mainColor: #006564;
+
+//clearfix
+@mixin cf {
+  %cf:after {
+    display: block;
+    clear: both;
+    content: '';
+  }
+}
+
+//link_color
+@mixin linkColor($color) {
+  a {
+    text-decoration: none;
+    color: $color;
+
+    &:hover, &:active, &:focus {
+      color: lighten($color, 40%);
+    }
+
+    &.fadeAlpha {
+      color: $color;
+    }
+
+    img {
+      border: none;
+    }
+  }
+}
+
+@mixin textHidden {
+  overflow: hidden;
+  text-indent: 100%;
+  white-space: nowrap;
+}
+
+//flex
+@mixin flex {
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+      -ms-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+          flex-wrap: wrap;
+}
+
+//bgHeight
+@mixin bgHeight($width, $height) {
+  padding-top: ($height / $width * 100%);
+}
+
+//gradation
+@mixin gradient($start-color, $end-color, $orientation) {
+  background: $start-color;
+
+  @if $orientation == vertical {
+    //: -moz-linear-gradient(top, $start-color 0%, $end-color 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $start-color), color-stop(100%, $end-color));
+    background: -webkit-linear-gradient(top, $start-color 0%, $end-color 100%);
+    background: -o-linear-gradient(top, $start-color 0%, $end-color 100%);
+    background: -ms-linear-gradient(top, $start-color 0%, $end-color 100%);
+    background: linear-gradient(to bottom, $start-color 0%, $end-color 100%);
+    -ms-filter: unquote('progid:DXImageTransform.Microsoft.gradient(startColorstr=\'#{$start-color}\', endColorstr=\'#{$end-color}\', GradientType=0)');
+  }
+
+  @else if $orientation == horizontal {
+    //: -moz-linear-gradient(left, $start-color 0%, $end-color 100%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%, $start-color), color-stop(100%, $end-color));
+    background: -webkit-linear-gradient(left, $start-color 0%, $end-color 100%);
+    background: -o-linear-gradient(left, $start-color 0%, $end-color 100%);
+    background: -ms-linear-gradient(left, $start-color 0%, $end-color 100%);
+    background: linear-gradient(to right, $start-color 0%, $end-color 100%);
+    -ms-filter: unquote('progid:DXImageTransform.Microsoft.gradient(startColorstr=\'#{$start-color}\', endColorstr=\'#{$end-color}\',GradientType=1)');
+  }
+
+  @else {
+    //: -moz-radial-gradient(center, ellipse cover, $start-color 0%, $end-color 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, $start-color), color-stop(100%, $end-color));
+    background: -webkit-radial-gradient(center, ellipse cover, $start-color 0%, $end-color 100%);
+    background: -o-radial-gradient(center, ellipse cover, $start-color 0%, $end-color 100%);
+    background: -ms-radial-gradient(center, ellipse cover, $start-color 0%, $end-color 100%);
+    background: radial-gradient(ellipse at center, $start-color 0%, $end-color 100%);
+    -ms-filter: unquote('progid:DXImageTransform.Microsoft.gradient(startColorstr=\'#{$start-color}\', endColorstr=\'#{$end-color}\', GradientType=1)');
+  }
+}
