@@ -1,0 +1,18 @@
+*.css.map
+.htaccess
+.ftpconfig
+desktop.ini
+
+# Ignore WordPress
+wp-*.php
+wp-admin
+wp-includes/*
+wp-content/*
+index.php
+!wp-content/themes
+!wp-content/themes/trym/index.php
+wp-content/themes/index.php
+xmlrpc.php
+license.txt
+readme.html
+*.html
