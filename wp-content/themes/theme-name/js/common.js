@@ -8,9 +8,9 @@ common scripts
 
   var g = {
     isSp:function(){ return ( g.winW() <= g.point )? true : false ; },// SP or PC
-    winW:function(){ return jQuery( window ).width(); },
-    winH:function(){ return jQuery( window ).height(); },
-    winT:function(){ return jQuery( window ).scrollTop(); },
+    winW:function(){ return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth; },
+    winH:function(){ return $( window ).height(); },
+    winT:function(){ return $( window ).scrollTop(); },
     point: 768
   }
 
@@ -38,29 +38,29 @@ common scripts
 
     fadeAlpha : function(){
 
-      jQuery('.fadeAlpha').hover(function(){
-        jQuery(this).removeClass('out').addClass('over');
+      $('.fadeAlpha').hover(function(){
+        $(this).removeClass('out').addClass('over');
       },
       function(){
-        jQuery(this).removeClass('over').addClass('out');
+        $(this).removeClass('over').addClass('out');
       });
 
     },
 
     accordion : function(){
 
-      jQuery('.accordion').find('dt').not('.other').on("click", function() {
-        jQuery(this).toggleClass('active')
+      $('.accordion').find('dt').not('.other').on("click", function() {
+        $(this).toggleClass('active')
           .next('dd').slideToggle()
             .siblings('dd:visible').slideUp()
               .prev('dt').removeClass('active');
 
-        if(jQuery(this).hasClass('active')){
-          var on = jQuery(this).find('img').attr('src').replace('_off','_on');
-          jQuery(this).find('img').attr('src', on);
+        if($(this).hasClass('active')){
+          var on = $(this).find('img').attr('src').replace('_off','_on');
+          $(this).find('img').attr('src', on);
         }else{
-          var off = jQuery(this).find('img').attr('src').replace('_on','_off');
-          jQuery(this).find('img').attr('src', off);
+          var off = $(this).find('img').attr('src').replace('_on','_off');
+          $(this).find('img').attr('src', off);
         }
       });
 
@@ -68,7 +68,7 @@ common scripts
 
     tab : function(){
 
-      var $tab = jQuery('div.inner');
+      var $tab = $('div.inner');
       var $nav = $tab.find('.tabNav a');
       var $tabBody = $tab.find('.tabBody');
 
@@ -76,13 +76,13 @@ common scripts
       $nav.eq(0).parent().addClass('active');
 
       $nav.click(function(){
-        var $this = jQuery(this);
+        var $this = $(this);
         var targetTabId = $this.attr('href');
 
         $nav.parent().removeClass('active');
         $tabBody.hide();
         $this.parent().addClass('active');
-        jQuery(targetTabId).fadeIn(1000);
+        $(targetTabId).fadeIn(1000);
 
         return false;
       });
@@ -91,9 +91,9 @@ common scripts
 
     smoothScroll : function(){
 
-      jQuery('a[href^="#"]').click(function() {
-        jQuery('html,body').animate({ scrollTop:
-          jQuery(jQuery(this).attr('href')).offset().top }, 'slow','swing');
+      $('a[href^="#"]').click(function() {
+        $('html,body').animate({ scrollTop:
+          $($(this).attr('href')).offset().top }, 'slow','swing');
           return false;
         });
 
@@ -102,9 +102,9 @@ common scripts
     pagetop : function(){
 
       //指定位置でstaticに
-      var $elem = jQuery(''),
-          $content = jQuery(''),
-          $win = jQuery(window);
+      var $elem = $(''),
+          $content = $(''),
+          $win = $(window);
 
           var contentTop = 0;
 
@@ -133,11 +133,11 @@ common scripts
         });
 
 
-      jQuery(window).scroll(function(){
-        if (jQuery(this).scrollTop() > 100) {
-          jQuery('.pagetop').fadeIn();
+      $(window).scroll(function(){
+        if ($(this).scrollTop() > 100) {
+          $('.pagetop').stop(true, false).fadeIn();
         } else {
-          jQuery('.pagetop').fadeOut();
+          $('.pagetop').stop(true, false).fadeOut();
         }
       });
 
@@ -148,42 +148,32 @@ common scripts
 
       var url = window.location.pathname;
 
-      jQuery('.nav.pg li a[href="'+url+'"]').parent().addClass('current');
+      //ページのカレント
+      $('.nav.pg li a[href="'+url+'"]').parent().addClass('current');
 
+      //ディレクトリのカレント
       var url = url.replace(/\w*\.html$/,'');
-      jQuery('.nav.dr li a[href="'+url+'"]').parent().addClass('current');
+      $('.nav.dr li a[href="'+url+'"]').parent().addClass('current');
 
-      if ( jQuery('.nrp li.current').size() > 0 ) {
-        var $crimg = jQuery('li.current').find("img[src*='_off']");
+      //CURRENT画像置換
+      if ( $('.nrp li.current').size() > 0 ) {
+        var $crimg = $('li.current').find("img[src*='_off']");
         $crimg.attr('src', $crimg.attr("src").replace(/_off/,'_on'));
       }
-
-      /* CURRENT画像置換
-      jQuery('.nrp li').each(function(){
-
-        var off = jQuery(this).find('img').attr('src'),
-             on = off.replace(/_off/, '_on');
-
-       if ( jQuery(this).hasClass('current') ) {
-         jQuery(this).find('img').attr('src', on);
-       }
-
-      });
-      */
 
     },
 
     rollover : function(){
 
-      jQuery("img[src*='_on']").parents('li').addClass("current");
+      $("img[src*='_on']").parents('li').addClass("current");
 
-      jQuery("img,input[type='image']").hover(function(){
-        if (jQuery(this).attr("src")){
-          jQuery(this).attr("src",jQuery(this).attr("src").replace("_off.", "_on."));
+      $("img,input[type='image']").hover(function(){
+        if ($(this).attr("src")){
+          $(this).attr("src",$(this).attr("src").replace("_off.", "_on."));
         }
       },function(){
-        if (jQuery(this).attr("src") && !jQuery(this).parents('li').hasClass("current") ){
-          jQuery(this).attr("src",jQuery(this).attr("src").replace("_on.", "_off."));
+        if ($(this).attr("src") && !$(this).parents('li').hasClass("current") ){
+          $(this).attr("src",$(this).attr("src").replace("_on.", "_off."));
         }
       });
 
@@ -191,7 +181,7 @@ common scripts
 
     popup : function(){
 
-      jQuery('.popup').click(function(){
+      $('.popup').click(function(){
         window.open(this.href, "WindowName","width=650,height=500,resizable=yes,scrollbars=yes");
         return false;
       });
@@ -202,9 +192,9 @@ common scripts
 
       //resizeFlag
       if ( g.isSp() ) {
-        jQuery('body').removeClass('pcview').addClass('spview');
+        $('body').removeClass('pcview').addClass('spview');
       } else {
-        jQuery('body').removeClass('spview').addClass('pcview');
+        $('body').removeClass('spview').addClass('pcview');
       }
 
       //SP Image changer
@@ -225,10 +215,10 @@ common scripts
       }
 
       function replaceImg(){
-        jQuery('img[src*=pc_],img[src*=sp_]').each(function(){
-          var spImg = jQuery(this).attr('src').replace(before, after);
-          if( jQuery(this).attr('src').match(before) ) {
-            jQuery(this).attr('src', spImg);
+        $('img[src*=pc_],img[src*=sp_]').each(function(){
+          var spImg = $(this).attr('src').replace(before, after);
+          if( $(this).attr('src').match(before) ) {
+            $(this).attr('src', spImg);
           }
         });
       }
@@ -238,12 +228,12 @@ common scripts
     //画像の有無を判断して置換
     getSpImg : function(){
 
-      var pc = jQuery(this).attr('src'),
+      var pc = $(this).attr('src'),
           sp = pc.replace(/\/default\//, '/sphone/');
 
       $.get(sp, null, function(data, status) {
 
-        jQuery('img' + '[src="' + pc + '"]').attr('src', sp);
+        $('img' + '[src="' + pc + '"]').attr('src', sp);
 
       });
 
@@ -251,10 +241,10 @@ common scripts
 
     altText : function(){
 
-      jQuery('.altText').each(function(){
+      $('.altText').each(function(){
 
-        alt = jQuery(this).find('img').attr('alt').replace(/\s{2}/, '<br>');
-        jQuery(this).prepend('<span class="sp">' + alt + '</span>');
+        alt = $(this).find('img').attr('alt').replace(/\s{2}/, '<br>');
+        $(this).prepend('<span class="sp">' + alt + '</span>');
 
       });
 
@@ -262,17 +252,17 @@ common scripts
 
     share : function(){
 
-      var shareTitle = encodeURI(jQuery('title').html());
+      var shareTitle = encodeURI($('title').html());
       var shareUrl = encodeURI(document.URL);
       var shareUrlComponent = encodeURIComponent(document.URL);
-      jQuery('.twitterShare a').attr("href", "http://twitter.com/share?url="+ shareUrl + "&text=" + shareTitle);
-      jQuery('.facebookShare a').attr("href", "http://www.facebook.com/sharer.php?u="+ shareUrl +"&t=" + shareTitle);
-      jQuery('.googleShare a').attr("href", "https://plus.google.com/share?url=" + shareUrl);
-      jQuery('.tumblrShare a').attr("href", "http://www.tumblr.com/share/link?&url=" + shareUrlComponent + "&name=" + shareTitle);
-      jQuery('.pinterestShare a').attr("href", " http://pinterest.com/pin/create/button/?url=" + shareUrl + "&media=画像URL" + shareTitle );
-      jQuery('.linkedinShare a').attr("href", "http://www.linkedin.com/shareArticle?mini=true&url=" + shareUrl + "&title=" + shareTitle);
-      jQuery('.lineShare a').attr("href", "http://line.me/R/msg/text/?" + shareTitle + shareUrl);
-      jQuery(".share a").click(function(){
+      $('.twitterShare a').attr("href", "http://twitter.com/share?url="+ shareUrl + "&text=" + shareTitle);
+      $('.facebookShare a').attr("href", "http://www.facebook.com/sharer.php?u="+ shareUrl +"&t=" + shareTitle);
+      $('.googleShare a').attr("href", "https://plus.google.com/share?url=" + shareUrl);
+      $('.tumblrShare a').attr("href", "http://www.tumblr.com/share/link?&url=" + shareUrlComponent + "&name=" + shareTitle);
+      $('.pinterestShare a').attr("href", " http://pinterest.com/pin/create/button/?url=" + shareUrl + "&media=画像URL" + shareTitle );
+      $('.linkedinShare a').attr("href", "http://www.linkedin.com/shareArticle?mini=true&url=" + shareUrl + "&title=" + shareTitle);
+      $('.lineShare a').attr("href", "http://line.me/R/msg/text/?" + shareTitle + shareUrl);
+      $(".share a").click(function(){
         window.open(this.href, "social_window","width=600,height=600,resizable=yes,scrollbars=yes,toolbar=yes");
         return false;
       });
@@ -289,7 +279,7 @@ common scripts
 
   }
 
-  jQuery(function() {
+  $(function() {
 
     Common.smoothScroll();
     Common.accordion();
@@ -302,10 +292,9 @@ common scripts
     Common.share();
     Common.uaFnc();
 
-    jQuery(window).on('load resize', function(){
+    $(window).on('load resize', function(){
 
       Common.resizeFnc();
-      Common.bgResize();
 
     });
 
